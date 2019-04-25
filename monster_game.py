@@ -7,7 +7,7 @@ KEY_RIGHT = 275
 
 class Character(pygame.sprite.Sprite):
     def __init__(self, image, x, y):
-        pygame.sprite.Sprite.__init__(self)
+        super(Character, self).__init__()
         self.x = x
         self.y = y
         self.image = image
@@ -21,6 +21,13 @@ class Hero(Character):
         self.move = [pygame.K_LEFT, pygame.K_RIGHT, pygame.K_UP, pygame.K_DOWN]
         self.vx = 5
         self.vy = 5        
+    # def update(self, width, height):
+    #     self.x += self.speed
+    #     self.y += self.speed
+    #     if self.x > width:
+    #         self.x = 0
+    #     if self.y > height:
+    #         self.y = 0
 
 class Monster(Character):
     def update(self, width, height):
