@@ -18,23 +18,11 @@ class Piece:
 
 class White(Piece):
     pass
-    # def render(self, screen):
-    #     pygame.draw.circle(screen, BLACK, (self.x, self.y), self.radius)
 
 class Black(Piece):
     pass
-    # def render(self, screen):
-    #     pygame.draw.circle(screen, BLACK, (self.x, self.y), self.radius)
 
 screen = pygame.display.set_mode((497,497))
-#color = BLACK
-
-def create_grid():
-    for row in range(8): 
-        for column in range(8):
-            color = GREEN
-            pygame.draw.rect(screen, color, [(margin + grid_width) * column + margin, (margin + grid_height) * row + margin, grid_width, grid_height])
-
 
 grid = []
 # creates 8 empty rows and appends them to the grid
@@ -44,9 +32,26 @@ for row in range(8):
     for column in range(8):
         grid[row].append(0)
 
+def create_grid():
+    for row in range(8): 
+        for column in range(8):
+            color = GREEN
+            pygame.draw.rect(screen, color, [(margin + grid_width) * column + margin, (margin + grid_height) * row + margin, grid_width, grid_height])
+
+def initial_board():
+    pygame.draw.circle(screen, BLACK, (217,217), 19)        #[3,3]            
+    pygame.draw.circle(screen, WHITE, (217,279), 19)        #[4,3]
+    pygame.draw.circle(screen, WHITE, (279,217), 19)        #[3,4]                
+    pygame.draw.circle(screen, BLACK, (279,279), 19)        #[4,4] 
+
+def valid_moves():
+    pass
+
 def place_piece():
     color = BLACK
-    stop_game = False
+    # grid[row][column] = 1
+    stop_game = False   
+
     while not stop_game:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -62,11 +67,17 @@ def place_piece():
                 #### // operator rounds the result to the nearest integer *DOWN*
                 column = pos[0] // (grid_width + margin) # for 0,0 rectangle if pos[0] (x value) doesn't exceed the total of grid_width + margin then it will always return 0 which is used to indicate what column its in
                 row = pos[1] // (grid_height + margin) # for 0,0 rectangle if pos[1] (y value) doesnt exceed total of grid_height + margin then it will return 0 used to indicate what row it is in
+                grid[row][column] += 1
                 #### Set that location to one
-                grid[row][column] = 1 #### uses the location we now know to set the value of that spot in the matrix to 1 indicating a change
+                # if grid[row][column] == 0:
+                #     grid[row][column] = 1 #### uses the location we now know to set the value of that spot in the matrix to 1 indicating a change
+                # elif grid[row][column] == 1:
+                #     grid[row][column] = 2
                 print("Click ", pos, "Grid coordinates: ", row, column)
 
                 ### COLUMN 1 CHECKS ####
+                #if grid[row][column] == 1:
+                    
                 if pos[0] <= 63 and pos[1] <= 63:                           #[0,0]
                     #round it to middle value of that square to use for coordinates                
                     pygame.draw.circle(screen, color, (31,31), 19) # POSITION OF DIAGONAL CIRCE ADD 62,62 // HORIZONTAL&VERTICAL ADD 61,61                 
@@ -114,8 +125,10 @@ def place_piece():
                     pygame.draw.circle(screen, color, (155,155), 19)                
                 if pos[0] > 126 and pos[0] <= 189 and pos[1] > 189 and pos[1] <= 252:           #[3,2]       
                     pygame.draw.circle(screen, color, (155,217), 19)
+                    pygame.draw.circle(screen, color, (217,217), 19)
                 if pos[0] > 126 and pos[0] <= 189 and pos[1] > 252 and pos[1] <= 315:           #[4,2]
                     pygame.draw.circle(screen, color, (155,279), 19)
+                    pygame.draw.circle(screen, color, (217,279), 19)
                 if pos[0] > 126 and pos[0] <= 189 and pos[1] > 315 and pos[1] <= 378:           #[5,2]
                     pygame.draw.circle(screen, color, (155,341), 19)
                 if pos[0] > 126 and pos[0] <= 189 and pos[1] > 378 and pos[1] <= 441:           #[6,2]
@@ -130,13 +143,15 @@ def place_piece():
                 if pos[0] > 189 and pos[0] <= 252 and pos[1] > 63 and pos[1] <= 126:            #[1,3]
                     pygame.draw.circle(screen, color, (217,93), 19)
                 if pos[0] > 189 and pos[0] <= 252 and pos[1] > 126 and pos[1] <= 189:           #[2,3]
-                    pygame.draw.circle(screen, color, (217,155), 19)                                    
-                if pos[0] > 189 and pos[0] <= 252 and pos[1] > 189 and pos[1] <= 252:           #[3,3]
-                    pygame.draw.circle(screen, color, (217,217), 19)                
-                if pos[0] > 189 and pos[0] <= 252 and pos[1] > 252 and pos[1] <= 315:           #[4,3]
-                    pygame.draw.circle(screen, color, (217,279), 19)
+                    pygame.draw.circle(screen, color, (217,155), 19)
+                    pygame.draw.circle(screen, color, (217,217), 19)                                    
+                #if pos[0] > 189 and pos[0] <= 252 and pos[1] > 189 and pos[1] <= 252:           #[3,3] initial
+                    #pygame.draw.circle(screen, color, (217,217), 19)                
+                #if pos[0] > 189 and pos[0] <= 252 and pos[1] > 252 and pos[1] <= 315:           #[4,3] initial
+                    #pygame.draw.circle(screen, color, (217,279), 19)
                 if pos[0] > 189 and pos[0] <= 252 and pos[1] > 315 and pos[1] <= 378:           #[5,3]
                     pygame.draw.circle(screen, color, (217,341), 19)
+                    pygame.draw.circle(screen, color, (217,279), 19)
                 if pos[0] > 189 and pos[0] <= 252 and pos[1] > 378 and pos[1] <= 441:           #[6,3]
                     pygame.draw.circle(screen, color, (217,403), 19)
                 if pos[0] > 189 and pos[0] <= 252 and pos[1] > 441 and pos[1] <= 504:           #[7,3]
@@ -148,14 +163,19 @@ def place_piece():
                     pygame.draw.circle(screen, color, (279,31), 19)                
                 if pos[0] > 252 and pos[0] <= 315 and pos[1] > 63 and pos[1] <= 126:          #[1,4]
                     pygame.draw.circle(screen, color, (279,93), 19)
+                    pygame.draw.circle(screen, color, (279,155), 19)
+                    pygame.draw.circle(screen, color, (279,217), 19)
+                    pygame.draw.circle(screen, color, (279,279), 19)
                 if pos[0] > 252 and pos[0] <= 315 and pos[1] > 126 and pos[1] <= 189:         #[2,4]
                     pygame.draw.circle(screen, color, (279,155), 19)
-                if pos[0] > 252 and pos[0] <= 315 and pos[1] > 189 and pos[1] <= 252:         #[3,4]
-                    pygame.draw.circle(screen, color, (279,217), 19)                
-                if pos[0] > 252 and pos[0] <= 315 and pos[1] > 252 and pos[1] <= 315:         #[4,4]
-                    pygame.draw.circle(screen, color, (279,279), 19)                
+                    pygame.draw.circle(screen, color, (279,217), 19)  
+                #if pos[0] > 252 and pos[0] <= 315 and pos[1] > 189 and pos[1] <= 252:         #[3,4] initial
+                    #pygame.draw.circle(screen, color, (279,217), 19)                
+                #if pos[0] > 252 and pos[0] <= 315 and pos[1] > 252 and pos[1] <= 315:         #[4,4] initial
+                    #pygame.draw.circle(screen, color, (279,279), 19)                
                 if pos[0] > 252 and pos[0] <= 315 and pos[1] > 315 and pos[1] <= 378:         #[5,4]
                     pygame.draw.circle(screen, color, (279,341), 19)
+                    pygame.draw.circle(screen, color, (279,279), 19)
                 if pos[0] > 252 and pos[0] <= 315 and pos[1] > 378 and pos[1] <= 441:         #[6,4]
                     pygame.draw.circle(screen, color, (279,403), 19)
                 if pos[0] > 252 and pos[0] <= 315 and pos[1] > 441 and pos[1] <= 504:         #[7,4]
@@ -172,7 +192,8 @@ def place_piece():
                 if pos[0] > 315 and pos[0] <= 378 and pos[1] > 189 and pos[1] <= 252:         #[3,5]
                     pygame.draw.circle(screen, color, (341,217), 19)                
                 if pos[0] > 315 and pos[0] <= 378 and pos[1] > 252 and pos[1] <= 315:         #[4,5]
-                    pygame.draw.circle(screen, color, (341,279), 19)                
+                    pygame.draw.circle(screen, color, (341,279), 19)
+                    pygame.draw.circle(screen, color, (279,279), 19)                
                 if pos[0] > 315 and pos[0] <= 378 and pos[1] > 315 and pos[1] <= 378:         #[5,5]
                     pygame.draw.circle(screen, color, (341,341), 20)                
                 if pos[0] > 315 and pos[0] <= 378 and pos[1] > 378 and pos[1] <= 441:         #[6,5]
@@ -223,6 +244,8 @@ def place_piece():
                 elif color == WHITE:
                     color = BLACK
 
+                print(grid)
+
         #### instructions to play the game line 56-58
         # font = pygame.font.Font(None, 25)
         # text = font.render('Click an empty square to place your piece down', True, (0, 0, 0))
@@ -231,25 +254,16 @@ def place_piece():
 
 def main():
     pygame.init()
-    #width = 497
-    #height = 497 # Size of canvas
-    #screen = pygame.display.set_mode((width, height)) # sets the screen to the desired size desired on line 6
     pygame.display.set_caption('Will this game work OR NAH')
 
     create_grid()
-
+    initial_board()
     place_piece()
 
-    #     # for piece in white_pieces_count: # has to be called after screen.fill(bg) line 51 because it runs top to bottom and if you render ball first then fill the screen the screen will be on top
-    #     #     piece.render(screen)
-    #     # for piece in black_pieces_count:
-    #     #     piece.render(screen)
     #     #### instructions to play the game line 56-58
     #     # font = pygame.font.Font(None, 25)
     #     # text = font.render('Click an empty square to place your piece down', True, (0, 0, 0))
     #     # screen.blit(text, (80, 230))   
-
-    #     pygame.display.update()
     pygame.quit()
 
 if __name__ == '__main__':
